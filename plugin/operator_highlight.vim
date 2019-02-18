@@ -37,32 +37,12 @@ if !exists( 'g:ophigh_color' )
   let g:ophigh_color = "cyan"
 endif
 
-if !exists( 'g:ophigh_filetypes_to_ignore' )
-  let g:ophigh_filetypes_to_ignore = {}
+if !exists( 'g:ophigh_filetypes' )
+  let g:ophigh_filetypes = ['cpp']
 endif
 
-fun! s:IgnoreFiletypeIfNotSet( file_type )
-  if get( g:ophigh_filetypes_to_ignore, a:file_type, 1 )
-    let g:ophigh_filetypes_to_ignore[ a:file_type ] = 1
-  endif
-endfunction
-
-call s:IgnoreFiletypeIfNotSet('help')
-call s:IgnoreFiletypeIfNotSet('markdown')
-call s:IgnoreFiletypeIfNotSet('qf') " This is for the quickfix window
-call s:IgnoreFiletypeIfNotSet('conque_term')
-call s:IgnoreFiletypeIfNotSet('diff')
-call s:IgnoreFiletypeIfNotSet('html')
-call s:IgnoreFiletypeIfNotSet('css')
-call s:IgnoreFiletypeIfNotSet('less')
-call s:IgnoreFiletypeIfNotSet('xml')
-call s:IgnoreFiletypeIfNotSet('sh')
-call s:IgnoreFiletypeIfNotSet('bash')
-call s:IgnoreFiletypeIfNotSet('notes')
-call s:IgnoreFiletypeIfNotSet('jinja')
-
 fun! s:HighlightOperators()
-  if get( g:ophigh_filetypes_to_ignore, &filetype, 0 )
+  if index(g:ophigh_filetypes, &filetype) == -1
     return
   endif
 
@@ -70,7 +50,7 @@ fun! s:HighlightOperators()
   " basically, searching for "/" is more complex since we want to avoid
   " matching against "//" or "/*" which would break C++ comment highlighting
   syntax match OperatorChars "\^\|?\|+\|-\|\*\|:\|<\|>\|&\||\|!\|\~\|%\|=\|/\(/\|*\)\@!"
-  syntax match Noise "(\|)\|{\|}\|\[\|\]\|;\|\.\|::\|->"
+  syntax match Noise "(\|)\|{\|}\|\[\|\]\|;\|\.\|,\|::\|->"
 
 endfunction
 
