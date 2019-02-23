@@ -38,7 +38,7 @@ if !exists( 'g:ophigh_color' )
 endif
 
 if !exists( 'g:ophigh_filetypes' )
-  let g:ophigh_filetypes = ['cpp']
+  let g:ophigh_filetypes = ['cpp', 'c']
 endif
 
 fun! s:HighlightOperators()
